@@ -16,6 +16,7 @@ export type CuponFisico = {
 };
 
 export type OperacionSistema = {
+  tipoOperacion: string;
   terminal: string;
   tarjeta: string;
   cuotas: string;
