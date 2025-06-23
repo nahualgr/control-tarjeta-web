@@ -9,6 +9,13 @@ export type ResultadoComparacion = {
   cupon: string;
   comprobante: string;
   coincide: boolean;
+  diferencias: {
+    terminal: boolean;
+    tarjeta: boolean;
+    importe: boolean;
+    autorizacion: boolean;
+    cupon: boolean;
+  };
   importeFisico?: number;
   importeSistema?: number;
   fecha?: string;
@@ -31,13 +38,24 @@ export default function ComparadorCupones() {
           op.cupon === fisico.cupon
       );
 
+      const diferencias = {
+        terminal: match?.terminal !== fisico.terminal,
+        tarjeta: match?.tarjeta !== fisico.tarjeta,
+        importe:
+          Math.abs(
+            opImporte(match?.importe ?? 0) - parseFloat(fisico.importe)
+          ) > 0.01,
+        autorizacion: match?.autorizacion !== fisico.autorizacion,
+        cupon: match?.cupon !== fisico.cupon,
+      };
+
+      const coincide = !!match && Object.values(diferencias).every((d) => !d);
+
       return {
         cupon: fisico.cupon,
         comprobante: `${fisico.terminal}-${fisico.cupon}`,
-        coincide:
-          !!match &&
-          Math.abs(opImporte(match.importe) - parseFloat(fisico.importe)) <
-            0.01,
+        coincide,
+        diferencias,
         importeFisico: parseFloat(fisico.importe),
         importeSistema: match?.importe ?? undefined,
         fecha: fisico.fecha?.toISOString().split("T")[0],

@@ -7,6 +7,7 @@ type CuponForm = {
   cupon: string;
   importe: string;
   cuotas: string;
+  tarjeta: string; // Nuevo campo
 };
 
 export default function FormularioCuponFisico() {
@@ -18,6 +19,7 @@ export default function FormularioCuponFisico() {
     cupon: "",
     importe: "",
     cuotas: "",
+    tarjeta: "", // Nuevo valor inicial
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +42,6 @@ export default function FormularioCuponFisico() {
       comprobanteCompleto: "",
       numeroVendedor: 0,
       presentacion: "Manual",
-      tarjeta: "N/A",
       hora: new Date().toLocaleTimeString("es-AR", { hour12: false }),
       vendedor: "Manual",
     };
@@ -53,6 +54,7 @@ export default function FormularioCuponFisico() {
       cupon: "",
       importe: "",
       cuotas: "",
+      tarjeta: "", // Reset
     });
   };
 
